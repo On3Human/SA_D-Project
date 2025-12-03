@@ -3,10 +3,77 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>UMS Prototype</title>
-    <meta http-equiv="refresh" content="0; url=login.html" />
+    <title>University Management System — Prototype Home</title>
+    <link rel="stylesheet" href="assets/style.css" />
   </head>
   <body>
-    <p>Redirecting to <a href="login.html">login</a>…</p>
+    <div class="navbar">
+      <div class="nav-inner">
+        <div class="brand">UMS Prototype</div>
+        <div class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="login.html">Login</a>
+          <a href="dashboard.html">Dashboard</a>
+          <a href="courses.html">Courses</a>
+          <a href="register.html">Register</a>
+          <a href="grades.html">Grades</a>
+          <a href="admin.html">Admin</a>
+          <a href="class-diagram.html">Class Model</a>
+          <a href="profile.html">Profile</a>
+          <a href="help.html">Help</a>
+        </div>
+        <div class="nav-actions">
+          <a href="login.html">Sign In</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="page">
+      <main class="card">
+        <h2>Quick start</h2>
+        <ul>
+          <li>
+            Open <a href="login.html">Login</a> and sign in with one of the
+            seeded accounts (student / instructor / admin).
+          </li>
+          <li>
+            Use <a href="courses.html">Courses</a> to add/update catalog entries
+            (instructor/admin).
+          </li>
+          <li>
+            As a student, go to <a href="register.html">Register</a> to search
+            and enroll (seat checks and payment simulation included).
+          </li>
+          <li>
+            Instructors can enter grades on <a href="grades.html">Grades</a>;
+            students can view them there as well.
+          </li>
+          <li>
+            Admin can view system summary on <a href="admin.html">Admin</a>.
+          </li>
+        </ul>
+
+        <h3>Notes / Known rules enforced</h3>
+        <ul>
+          <li>
+            Course code uniqueness is case-insensitive (prevents duplicates).
+          </li>
+          <li>Students cannot register for the same course twice.</li>
+          <li>
+            Student course limits: warning if &lt; 4 courses; hard limit 7
+            courses maximum.
+          </li>
+          <li>
+            Payment simulation supports Visa (may fail to allow retry) and Cash
+            (always succeeds).
+          </li>
+        </ul>
+      </main>
+
+      <footer class="card muted">
+        Passwords for seeded accounts: student/studentpass,
+        instructor/instructorpass, admin/adminpass
+      </footer>
+    </div>
   </body>
 </html>

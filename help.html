@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Help — UMS Prototype</title>
+    <link rel="stylesheet" href="assets/style.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="card">
+        <h1>Help & Quick Reference</h1>
+        <nav class="nav">
+          <a href="index.html">Home</a> · <a href="dashboard.html">Dashboard</a>
+        </nav>
+      </header>
+
+      <main class="card">
+        <h2>Seeded accounts</h2>
+        <ul>
+          <li>student / studentpass</li>
+          <li>instructor / instructorpass</li>
+          <li>admin / adminpass</li>
+          <li><strong>finance / financepass</strong> (Finance Dept)</li>
+        </ul>
+
+        <h2>Key behaviors</h2>
+        <ul>
+          <li>
+            Student: register up to 7 courses; below 4 courses shows a warning.
+          </li>
+          <li>
+            Registration includes payment simulation; Visa may fail randomly;
+            Cash always succeeds. If Visa fails, Finance can approve pending
+            payments.
+          </li>
+          <li>
+            Course codes are unique ignoring case; editing a code will update
+            the existing entry.
+          </li>
+          <li>
+            Exchange flow attempts an atomic drop+add and prevents exchanging to
+            a course already taken.
+          </li>
+        </ul>
+
+        <h2>Troubleshooting</h2>
+        <ol>
+          <li>If navigation redirects to login, sign back in.</li>
+          <li>
+            If payment fails, choose Cash or wait for Admin/Finance to verify
+            pending payments.
+          </li>
+          <li>
+            If a course disappears after delete, it also removes associated
+            registrations and payments.
+          </li>
+        </ol>
+      </main>
+    </div>
+  </body>
+</html>

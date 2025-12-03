@@ -119,11 +119,18 @@
 
       function renderMyRegs() {
         const regs = UMSApp.studentRegistrations(user.username);
+        const payments = UMSApp.getPaymentsForStudent
+          ? UMSApp.getPaymentsForStudent(user.username)
+          : [];
         const frag = regs
-          .map(
-            (r) =>
-              `<div class="row"><div>${r.course} — ${r.status}</div><div><button data-code="${r.course}" class="dropBtn ghost">Drop</button></div></div>`
-          )
+          .map((r) => {
+            const pay = payments.find((p) => p.regId === r.regId);
+            const payLabel = pay
+              ? ` • payment: ${pay.method} (${pay.status})`
+              : "";
+            const dropBtn = `<button data-code="${r.course}" class="dropBtn ghost">Drop</button>`;
+            return `<div class="row"><div><strong>${r.course}</strong> — ${r.status}${payLabel}</div><div>${dropBtn}</div></div>`;
+          })
           .join("");
         document.getElementById("myRegs").innerHTML =
           frag || "<em>No registrations</em>";

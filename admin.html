@@ -7,19 +7,32 @@
     <link rel="stylesheet" href="assets/style.css" />
   </head>
   <body>
+    <!-- keep navbar (ensure you have global navbar snippet in each page) -->
     <div class="page">
       <header class="card">
-        <h1>Admin / Reports</h1>
-        <nav class="nav"><a href="dashboard.html">Dashboard</a></nav>
+        <h1>Admin / Finance</h1>
         <p id="who" class="muted"></p>
       </header>
 
       <main class="card">
-        <button id="summaryBtn">Show Enrollment Summary</button>
-        <pre id="summary" class="muted"></pre>
-        <hr />
-        <h3>System Data (JSON)</h3>
-        <pre id="raw" class="muted"></pre>
+        <div id="adminPanel">
+          <!-- Admin content -->
+          <div id="adminArea" style="display: none">
+            <button id="summaryBtn">Show Enrollment Summary</button>
+            <pre id="summary" class="muted"></pre>
+            <hr />
+            <h3>System Data (JSON)</h3>
+            <pre id="raw" class="muted"></pre>
+          </div>
+
+          <!-- Finance content -->
+          <div id="financeArea" style="display: none">
+            <h2>Pending Payments</h2>
+            <div id="pendingList" class="list muted"></div>
+            <h3>All Payments</h3>
+            <div id="allPayments" class="list muted"></div>
+          </div>
+        </div>
       </main>
     </div>
 
@@ -27,22 +40,99 @@
     <script>
       UMSApp.requireAuth();
       const user = UMSApp.currentUser();
-      if (user.role !== "admin") {
-        alert("Admin access required");
-        window.location = "dashboard.html";
-      }
+      if (!user) window.location = "login.html";
       document.getElementById(
         "who"
       ).textContent = `${user.username} (${user.role})`;
-      document.getElementById("summaryBtn").addEventListener("click", () => {
-        const s = UMSApp.enrollmentSummary();
-        document.getElementById("summary").textContent = s;
-        document.getElementById("raw").textContent = JSON.stringify(
-          UMSApp.data(),
-          null,
-          2
+
+      const adminArea = document.getElementById("adminArea");
+      const financeArea = document.getElementById("financeArea");
+
+      if (user.role === "admin") {
+        adminArea.style.display = "block";
+        document.getElementById("summaryBtn").addEventListener("click", () => {
+          document.getElementById("summary").textContent =
+            UMSApp.enrollmentSummary();
+          document.getElementById("raw").textContent = JSON.stringify(
+            UMSApp.data(),
+            null,
+            2
+          );
+        });
+      } else if (user.role === "finance") {
+        financeArea.style.display = "block";
+        renderPending();
+        renderAllPayments();
+      } else {
+        // not authorized for this page
+        alert("Admin/Finance access required");
+        window.location = "dashboard.html";
+      }
+
+      function renderPending() {
+        const list = UMSApp.getPendingPayments();
+        const el = document.getElementById("pendingList");
+        if (!list.length) {
+          el.innerHTML = "<em>No pending payments</em>";
+          return;
+        }
+        el.innerHTML = list
+          .map(
+            (
+              p
+            ) => `<div class="row"><div><strong>${p.course}</strong> — ${p.student} • ${p.method}</div>
+        <div class="controls"><button data-id="${p.paymentId}" class="approve ghost">Approve</button><button data-id="${p.paymentId}" class="reject ghost">Reject</button></div></div>`
+          )
+          .join("");
+        document.querySelectorAll(".approve").forEach((b) =>
+          b.addEventListener("click", () => {
+            const id = Number(b.getAttribute("data-id"));
+            try {
+              UMSApp.verifyPayment(id, "approve");
+              alert("Payment approved");
+              renderPending();
+              renderAllPayments();
+            } catch (e) {
+              alert("Error: " + e.message);
+              renderPending();
+              renderAllPayments();
+            }
+          })
         );
-      });
+        document.querySelectorAll(".reject").forEach((b) =>
+          b.addEventListener("click", () => {
+            const id = Number(b.getAttribute("data-id"));
+            try {
+              UMSApp.verifyPayment(id, "reject");
+              alert("Payment rejected");
+              renderPending();
+              renderAllPayments();
+            } catch (e) {
+              alert("Error: " + e.message);
+              renderPending();
+              renderAllPayments();
+            }
+          })
+        );
+      }
+
+      function renderAllPayments() {
+        const all = UMSApp.getAllPayments();
+        const el = document.getElementById("allPayments");
+        if (!all.length) {
+          el.innerHTML = "<em>No payments</em>";
+          return;
+        }
+        el.innerHTML =
+          '<table class="table"><tr><th>PaymentId</th><th>RegId</th><th>Student</th><th>Course</th><th>Method</th><th>Status</th></tr>' +
+          all
+            .map(
+              (p) =>
+                `<tr><td>${p.paymentId}</td><td>${p.regId}</td><td>${p.student}</td><td>${p.course}</td><td>${p.method}</td><td>${p.status}</td></tr>`
+            )
+            .join("") +
+          "</table>";
+      }
     </script>
   </body>
 </html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Profile — UMS Prototype</title>
+    <link rel="stylesheet" href="assets/style.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="card">
+        <h1>Profile</h1>
+        <nav class="nav">
+          <a href="dashboard.html">Dashboard</a> · <a href="index.html">Home</a>
+        </nav>
+        <p id="who" class="muted"></p>
+      </header>
+
+      <main class="card">
+        <h2>Account</h2>
+        <div id="acctInfo" class="muted"></div>
+
+        <h3>Change password</h3>
+        <form id="pwForm">
+          <label
+            >Current password<input id="curPw" type="password" required
+          /></label>
+          <label
+            >New password<input id="newPw" type="password" required
+          /></label>
+          <div class="actions"><button>Change password</button></div>
+        </form>
+        <p id="pwMsg" class="muted"></p>
+      </main>
+    </div>
+
+    <script src="assets/app.js"></script>
+    <script>
+      UMSApp.requireAuth();
+      const user = UMSApp.currentUser();
+      document.getElementById(
+        "who"
+      ).textContent = `${user.username} (${user.role})`;
+      document.getElementById(
+        "acctInfo"
+      ).innerHTML = `<div>Username: <strong>${user.username}</strong></div><div>Role: <strong>${user.role}</strong></div>`;
+
+      document.getElementById("pwForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const cur = document.getElementById("curPw").value;
+        const neu = document.getElementById("newPw").value;
+        try {
+          UMSApp.changePassword(user.username, cur, neu);
+          document.getElementById("pwMsg").textContent =
+            "Password changed successfully.";
+          document.getElementById("pwForm").reset();
+        } catch (err) {
+          document.getElementById("pwMsg").textContent =
+            "Error: " + err.message;
+        }
+      });
+    </script>
+  </body>
+</html>

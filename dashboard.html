@@ -15,7 +15,7 @@
           <a href="courses.html">Courses</a>
           <a href="register.html">Register</a>
           <a href="grades.html">Grades</a>
-          <a href="admin.html">Admin</a>
+          <a href="admin.html">Admin/Finance</a>
           <a href="#" id="logout">Logout</a>
         </nav>
       </header>
@@ -43,12 +43,15 @@
       if (u.role === "student")
         roleArea.innerHTML =
           '<p>Go to <a href="register.html">Register</a> to enroll in courses.</p>';
-      if (u.role === "instructor")
+      else if (u.role === "instructor")
         roleArea.innerHTML =
           '<p>Go to <a href="courses.html">Courses</a> to manage and <a href="grades.html">Grades</a> to enter grades.</p>';
-      if (u.role === "admin")
+      else if (u.role === "admin")
         roleArea.innerHTML =
           '<p>Use <a href="admin.html">Admin</a> for reports and system overview.</p>';
+      else if (u.role === "finance")
+        roleArea.innerHTML =
+          '<p>Use <a href="admin.html">Finance</a> to verify pending payments and manage payment queue.</p>';
     </script>
   </body>
 </html>
