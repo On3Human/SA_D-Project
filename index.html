@@ -3,77 +3,90 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>University Management System — Prototype Home</title>
+    <title>UMS Prototype — Home</title>
     <link rel="stylesheet" href="assets/style.css" />
   </head>
   <body>
-    <div class="navbar">
-      <div class="nav-inner">
-        <div class="brand">UMS Prototype</div>
-        <div class="nav-links">
-          <a href="index.html">Home</a>
-          <a href="login.html">Login</a>
-          <a href="dashboard.html">Dashboard</a>
-          <a href="courses.html">Courses</a>
-          <a href="register.html">Register</a>
-          <a href="grades.html">Grades</a>
-          <a href="admin.html">Admin</a>
-          <a href="class-diagram.html">Class Model</a>
-          <a href="profile.html">Profile</a>
-          <a href="help.html">Help</a>
-        </div>
-        <div class="nav-actions">
-          <a href="login.html">Sign In</a>
-        </div>
-      </div>
-    </div>
-
     <div class="page">
       <main class="card">
-        <h2>Quick start</h2>
-        <ul>
-          <li>
-            Open <a href="login.html">Login</a> and sign in with one of the
-            seeded accounts (student / instructor / admin).
-          </li>
-          <li>
-            Use <a href="courses.html">Courses</a> to add/update catalog entries
-            (instructor/admin).
-          </li>
-          <li>
-            As a student, go to <a href="register.html">Register</a> to search
-            and enroll (seat checks and payment simulation included).
-          </li>
-          <li>
-            Instructors can enter grades on <a href="grades.html">Grades</a>;
-            students can view them there as well.
-          </li>
-          <li>
-            Admin can view system summary on <a href="admin.html">Admin</a>.
-          </li>
-        </ul>
+        <div class="hero">
+          <div class="hero-left">
+            <h1>University Management — Front-end Prototype</h1>
+            <p class="muted">
+              Fast prototype implementing the diagrams: course catalog,
+              registration with payment flow, finance verification, grade
+              management and admin reporting. Data persists in localStorage.
+            </p>
+            <div
+              style="
+                margin-top: 12px;
+                display: flex;
+                gap: 10px;
+                flex-wrap: wrap;
+              "
+            >
+              <a href="login.html"><button>Get started — Sign in</button></a>
+              <a href="courses.html"
+                ><button class="ghost">Browse courses</button></a
+              >
+              <a href="help.html"><button class="ghost">Help</button></a>
+            </div>
+            <div class="features" style="margin-top: 18px">
+              <div class="feature">
+                <h4>Auth & Roles</h4>
+                <p>
+                  Student, Instructor, Admin, Finance — role-based flows and UI.
+                </p>
+              </div>
+              <div class="feature">
+                <h4>Registration</h4>
+                <p>
+                  Seat checks, payment stub, pending payments and finance
+                  verification.
+                </p>
+              </div>
+              <div class="feature">
+                <h4>Course Management</h4>
+                <p>
+                  Create / update / delete courses with credits and seat counts.
+                </p>
+              </div>
+            </div>
+          </div>
 
-        <h3>Notes / Known rules enforced</h3>
-        <ul>
-          <li>
-            Course code uniqueness is case-insensitive (prevents duplicates).
-          </li>
-          <li>Students cannot register for the same course twice.</li>
-          <li>
-            Student course limits: warning if &lt; 4 courses; hard limit 7
-            courses maximum.
-          </li>
-          <li>
-            Payment simulation supports Visa (may fail to allow retry) and Cash
-            (always succeeds).
-          </li>
-        </ul>
+          <div class="hero-right">
+            <div
+              style="
+                padding: 16px;
+                border-radius: 10px;
+                background: linear-gradient(180deg, #fff, #f8fbff);
+                box-shadow: 0 6px 18px rgba(11, 110, 246, 0.04);
+              "
+            >
+              <h3 style="margin: 0 0 8px 0">Seeded accounts</h3>
+              <ul class="small muted" style="margin: 0; padding-left: 18px">
+                <li>student / studentpass</li>
+                <li>instructor / instructorpass</li>
+                <li>admin / adminpass</li>
+                <li>finance / financepass</li>
+              </ul>
+              <div style="margin-top: 12px" class="small muted">
+                Tip: use <strong>Cash</strong> for deterministic payment success
+                during testing; choose <strong>Visa</strong> to generate pending
+                payments for finance to approve.
+              </div>
+            </div>
+          </div>
+        </div>
       </main>
 
-      <footer class="card muted">
-        Passwords for seeded accounts: student/studentpass,
-        instructor/instructorpass, admin/adminpass
+      <footer class="card footer">
+        Prototype — static front-end only. Data stored in localStorage
+        (ums_data_v3). To reset demo state remove the key in DevTools →
+        Application → Local Storage.
       </footer>
     </div>
+
+    <script src="assets/app.js"></script>
   </body>
 </html>
