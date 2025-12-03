@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Sequence Flow — Registration</title>
+    <link rel="stylesheet" href="assets/style.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="card">
+        <h1>Sequence Flow — Course Registration</h1>
+        <p class="muted">
+          Narrative of the sequence diagram (login → select → seat check →
+          payment → confirm)
+        </p>
+        <nav class="nav">
+          <a href="activity.html">Activity</a> ·
+          <a href="prototype.html">Prototype</a>
+        </nav>
+      </header>
+
+      <main class="card">
+        <figure class="diagram-figure">
+          <img
+            src="assets/images/SequenceDiagram.jpeg"
+            alt="Full sequence diagram"
+          />
+          <figcaption class="muted">
+            Figure: lifelines for student, system, registrar, finance and
+            message ordering.
+          </figcaption>
+        </figure>
+
+        <h2>Step-by-step narrative</h2>
+        <ol>
+          <li>Student logs in — system authenticates (token/session).</li>
+          <li>
+            Student requests course list; system displays available courses.
+          </li>
+          <li>
+            Student selects course and initiates registration — system checks
+            seat availability with registrar service (simulated).
+          </li>
+          <li>
+            If seats available: proceed to payment verification with Finance; on
+            success, enrollment recorded; on failure, ask user to retry.
+          </li>
+          <li>
+            System returns confirmation to student and updates course seat
+            counts and records.
+          </li>
+        </ol>
+
+        <p class="muted">
+          The prototype simulates these steps on the
+          <a href="prototype.html">Prototype</a> page.
+        </p>
+      </main>
+    </div>
+  </body>
+</html>

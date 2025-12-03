@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>DFD — Context (Level 0)</title>
+    <link rel="stylesheet" href="assets/style.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="card">
+        <h1>Level 0 DFD — Context Diagram</h1>
+        <p class="muted">
+          High-level view of the University Management System and its external
+          actors
+        </p>
+        <nav class="nav">
+          <a href="index.html">Home</a> ·
+          <a href="dfd-level1.html">Level 1</a> ·
+          <a href="prototype.html">Prototype</a>
+        </nav>
+      </header>
+
+      <main class="card">
+        <figure class="diagram-figure">
+          <img
+            src="assets/images/image.png"
+            alt="Level 0 DFD: Context Diagram"
+          />
+          <figcaption class="muted">
+            Figure: System, Student, Admin and primary data flows.
+          </figcaption>
+        </figure>
+
+        <h2>Humanized description</h2>
+        <p>
+          The context DFD presents the University Management System (the central
+          bubble) and two primary external entities: Student and Admin. Key
+          flows include:
+        </p>
+        <ul>
+          <li>
+            From Student → System: Student ID, personal info, course selection,
+            payment info (inputs)
+          </li>
+          <li>
+            From System → Student: Class schedules, grade transcripts, fee
+            receipts, alerts (outputs)
+          </li>
+          <li>
+            From Admin ↔ System: Curriculum/policy updates, enrollment reports,
+            system logs, and administrative data
+          </li>
+        </ul>
+
+        <h3>Why it matters</h3>
+        <p>
+          This level clarifies boundaries and what data crosses them — useful
+          for security, integration and stakeholder agreements.
+        </p>
+      </main>
+
+      <footer class="card muted">
+        <a href="assets/images/image.png" download>Download image.png</a>
+      </footer>
+    </div>
+  </body>
+</html>

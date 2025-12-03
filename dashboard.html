@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Dashboard — UMS Prototype</title>
+    <link rel="stylesheet" href="assets/style.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="card">
+        <h1>UMS Prototype — Dashboard</h1>
+        <p id="who" class="muted"></p>
+        <nav class="nav">
+          <a href="courses.html">Courses</a>
+          <a href="register.html">Register</a>
+          <a href="grades.html">Grades</a>
+          <a href="admin.html">Admin</a>
+          <a href="#" id="logout">Logout</a>
+        </nav>
+      </header>
+
+      <main class="card" id="mainArea">
+        <h2>Welcome</h2>
+        <p class="muted">
+          Quick links for the flows in the diagrams: manage courses, search &
+          register, payment stub and grade management.
+        </p>
+        <div id="roleArea"></div>
+      </main>
+    </div>
+
+    <script src="assets/app.js"></script>
+    <script>
+      UMSApp.requireAuth();
+      const u = UMSApp.currentUser();
+      document.getElementById("who").textContent = `${u.username} (${u.role})`;
+      document.getElementById("logout").addEventListener("click", (e) => {
+        e.preventDefault();
+        UMSApp.logout();
+      });
+      const roleArea = document.getElementById("roleArea");
+      if (u.role === "student")
+        roleArea.innerHTML =
+          '<p>Go to <a href="register.html">Register</a> to enroll in courses.</p>';
+      if (u.role === "instructor")
+        roleArea.innerHTML =
+          '<p>Go to <a href="courses.html">Courses</a> to manage and <a href="grades.html">Grades</a> to enter grades.</p>';
+      if (u.role === "admin")
+        roleArea.innerHTML =
+          '<p>Use <a href="admin.html">Admin</a> for reports and system overview.</p>';
+    </script>
+  </body>
+</html>

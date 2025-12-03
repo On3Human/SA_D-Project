@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Activity Flow — Course Lifecycle</title>
+    <link rel="stylesheet" href="assets/style.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="card">
+        <h1>Activity Diagram — Course Management & Registration</h1>
+        <p class="muted">
+          Walkthrough of decisions, forks and convergences in the activity flow
+        </p>
+        <nav class="nav">
+          <a href="sequence.html">Sequence</a> ·
+          <a href="prototype.html">Prototype</a>
+        </nav>
+      </header>
+
+      <main class="card">
+        <figure class="diagram-figure">
+          <img
+            src="assets/images/ActivityDiagram.jpeg"
+            alt="Full activity diagram"
+          />
+          <figcaption class="muted">
+            Figure: flow from registration check → login → create/update/search
+            → choose & exchange course
+          </figcaption>
+        </figure>
+
+        <h2>Humanized walkthrough</h2>
+        <p>
+          Start: user attempts to register. Decision nodes include "has
+          registered?" and "course created?" branching into create/update.
+          Search then splits into "by name" or "by credit hours". If course
+          found, the student chooses and completes exchange; otherwise error
+          path allows retry.
+        </p>
+
+        <h3>Testing tips</h3>
+        <ul>
+          <li>Treat each diamond (decision) as a test case branch.</li>
+          <li>
+            Parallel flows (notifications/analytics) are simulated as
+            non-blocking steps in the prototype.
+          </li>
+        </ul>
+      </main>
+    </div>
+  </body>
+</html>

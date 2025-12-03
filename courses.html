@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Courses — UMS Prototype</title>
+    <link rel="stylesheet" href="assets/style.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="card">
+        <h1>Courses</h1>
+        <nav class="nav">
+          <a href="dashboard.html">Dashboard</a> ·
+          <a href="register.html">Register</a>
+        </nav>
+        <p id="who" class="muted"></p>
+      </header>
+
+      <main class="card">
+        <section id="manageSection" style="display: none">
+          <h2>Create / Update Course</h2>
+          <form id="courseForm">
+            <label>Code<input id="code" required /></label>
+            <label>Title<input id="title" required /></label>
+            <label
+              >Seats<input id="seats" type="number" min="0" required
+            /></label>
+            <label
+              >Credits
+              <input
+                id="credits"
+                type="number"
+                min="1"
+                max="6"
+                value="3"
+                required
+              />
+            </label>
+            <div class="actions"><button type="submit">Save</button></div>
+          </form>
+        </section>
+
+        <section>
+          <h2>Catalog</h2>
+          <div id="catalog" class="list muted"></div>
+        </section>
+      </main>
+    </div>
+
+    <script src="assets/app.js"></script>
+    <script>
+      UMSApp.requireAuth();
+      const user = UMSApp.currentUser();
+      document.getElementById(
+        "who"
+      ).textContent = `${user.username} (${user.role})`;
+      const manageSection = document.getElementById("manageSection");
+      if (user.role === "instructor" || user.role === "admin") {
+        manageSection.style.display = "block";
+      }
+
+      function renderCatalog() {
+        const courses = UMSApp.data().courses;
+        const out = courses
+          .map((c) => {
+            return `<div class="row"><div><strong>${c.code}</strong> — ${
+              c.title
+            } <span class="badge">${
+              c.credits
+            }cr</span><div class="small">seats: ${c.seats}</div></div>
+          <div class="controls">${
+            user.role !== "student"
+              ? `<button data-code="${c.code}" class="editBtn ghost">Edit</button><button data-code="${c.code}" class="delBtn ghost">Delete</button>`
+              : ""
+          }
+          ${
+            user.role === "student"
+              ? `<button data-code="${c.code}" class="regBtn">Register</button>`
+              : ""
+          }</div></div>`;
+          })
+          .join("");
+        document.getElementById("catalog").innerHTML =
+          out || "<em>No courses</em>";
+        document.querySelectorAll(".editBtn").forEach((b) =>
+          b.addEventListener("click", () => {
+            const code = b.getAttribute("data-code");
+            const c = UMSApp.findCourse(code);
+            document.getElementById("code").value = c.code;
+            document.getElementById("title").value = c.title;
+            document.getElementById("seats").value = c.seats;
+            document.getElementById("credits").value = c.credits || 3;
+          })
+        );
+        document.querySelectorAll(".delBtn").forEach((b) =>
+          b.addEventListener("click", () => {
+            if (confirm("Delete course?")) {
+              UMSApp.deleteCourse(b.getAttribute("data-code"));
+              renderCatalog();
+            }
+          })
+        );
+        document.querySelectorAll(".regBtn").forEach((b) =>
+          b.addEventListener("click", () => {
+            window.location =
+              "register.html?course=" + b.getAttribute("data-code");
+          })
+        );
+      }
+
+      document.getElementById("courseForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const code = document.getElementById("code").value.trim();
+        const title = document.getElementById("title").value.trim();
+        const seats = Number(document.getElementById("seats").value);
+        const credits = Number(document.getElementById("credits").value || 3);
+        UMSApp.saveCourse({ code, title, seats, credits });
+        document.getElementById("courseForm").reset();
+        renderCatalog();
+      });
+
+      renderCatalog();
+    </script>
+  </body>
+</html>

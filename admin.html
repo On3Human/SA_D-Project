@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Admin — UMS Prototype</title>
+    <link rel="stylesheet" href="assets/style.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="card">
+        <h1>Admin / Reports</h1>
+        <nav class="nav"><a href="dashboard.html">Dashboard</a></nav>
+        <p id="who" class="muted"></p>
+      </header>
+
+      <main class="card">
+        <button id="summaryBtn">Show Enrollment Summary</button>
+        <pre id="summary" class="muted"></pre>
+        <hr />
+        <h3>System Data (JSON)</h3>
+        <pre id="raw" class="muted"></pre>
+      </main>
+    </div>
+
+    <script src="assets/app.js"></script>
+    <script>
+      UMSApp.requireAuth();
+      const user = UMSApp.currentUser();
+      if (user.role !== "admin") {
+        alert("Admin access required");
+        window.location = "dashboard.html";
+      }
+      document.getElementById(
+        "who"
+      ).textContent = `${user.username} (${user.role})`;
+      document.getElementById("summaryBtn").addEventListener("click", () => {
+        const s = UMSApp.enrollmentSummary();
+        document.getElementById("summary").textContent = s;
+        document.getElementById("raw").textContent = JSON.stringify(
+          UMSApp.data(),
+          null,
+          2
+        );
+      });
+    </script>
+  </body>
+</html>

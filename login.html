@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Login — UMS Prototype</title>
+    <link rel="stylesheet" href="assets/style.css" />
+  </head>
+  <body>
+    <div class="page">
+      <main class="card auth-card">
+        <h1>Login</h1>
+        <p class="muted">
+          Use one of: student / instructor / admin — password is required.
+        </p>
+        <form id="loginForm">
+          <label>Username<input id="u" required /></label>
+          <label>Password<input id="p" type="password" required /></label>
+          <div class="actions">
+            <button type="submit">Sign in</button>
+          </div>
+        </form>
+        <p id="msg" class="muted"></p>
+      </main>
+    </div>
+    <script src="assets/app.js"></script>
+    <script>
+      // login handler
+      document.getElementById("loginForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const u = document.getElementById("u").value.trim();
+        const p = document.getElementById("p").value;
+        const res = UMSApp.login(u, p);
+        const msg = document.getElementById("msg");
+        if (res.success) {
+          window.location = "dashboard.html";
+        } else msg.textContent = res.message;
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Grades — UMS Prototype</title>
+    <link rel="stylesheet" href="assets/style.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="card">
+        <h1>Grades</h1>
+        <nav class="nav"><a href="dashboard.html">Dashboard</a></nav>
+        <p id="who" class="muted"></p>
+      </header>
+
+      <main class="card">
+        <div id="gradeArea" class="muted"></div>
+      </main>
+    </div>
+
+    <script src="assets/app.js"></script>
+    <script>
+      UMSApp.requireAuth();
+      const user = UMSApp.currentUser();
+      document.getElementById(
+        "who"
+      ).textContent = `${user.username} (${user.role})`;
+      const area = document.getElementById("gradeArea");
+
+      if (user.role === "instructor") {
+        const courses = UMSApp.data()
+          .courses.map((c) => `<option value="${c.code}">${c.code}</option>`)
+          .join("");
+        area.innerHTML = `<form id="gForm" class="form-inline"><select id="gCourse">${courses}</select><input id="gStudent" placeholder="student username"><input id="gValue" placeholder="grade"><button>Save</button></form><div id="gList"></div>`;
+        document.getElementById("gForm").addEventListener("submit", (e) => {
+          e.preventDefault();
+          UMSApp.saveGrade({
+            student: document.getElementById("gStudent").value.trim(),
+            course: document.getElementById("gCourse").value,
+            grade: document.getElementById("gValue").value.trim(),
+          });
+          renderList();
+        });
+        function renderList() {
+          document.getElementById("gList").innerHTML =
+            UMSApp.data()
+              .grades.map((g) => `${g.student} - ${g.course}: ${g.grade}`)
+              .join("<br>") || "<em>No grades</em>";
+        }
+        renderList();
+      } else if (user.role === "student") {
+        const my = UMSApp.data().grades.filter(
+          (g) => g.student === user.username
+        );
+        area.innerHTML =
+          my.map((g) => `${g.course}: ${g.grade}`).join("<br>") ||
+          "<em>No grades</em>";
+      } else {
+        area.textContent = "Admin: view reports in Admin page.";
+      }
+    </script>
+  </body>
+</html>
