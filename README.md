@@ -1,23 +1,8 @@
 # University Management System
 
-A modern, user-friendly web platform for managing university operations. Students register for courses, manage payments, and track grades. Instructors create courses and assign grades. Finance staff verify payments. Administrators oversee the entire system.
+A modern web platform for managing university operations. Students register for courses and track grades. Instructors create courses and assign grades. Finance staff verify payments. Administrators oversee the system.
 
-## Quick Start
-
-### 1. Open the Project
-
-Navigate to your project folder and start a local web server:
-
-```bash
-cd /home/human/SA_D-Project
-python3 -m http.server 8000
-```
-
-Then open your browser and go to: **http://localhost:8000**
-
-### 2. Sign In with a Test Account
-
-Choose a role and explore the system:
+## Test Accounts
 
 | Username | Password | Role |
 |----------|----------|------|
@@ -26,65 +11,40 @@ Choose a role and explore the system:
 | admin | adminpass | Administrator |
 | finance | financepass | Finance Staff |
 
-## What You Can Do
+## Features by Role
 
-### For Students
-- **Browse the course catalog** and search by name or credit hours
-- **Register for up to 7 courses** with automatic seat availability checks
-- **Choose your payment method** (Cash for instant success, Visa for testing payment approvals)
-- **Switch courses** by dropping one and adding another in a single transaction
-- **View your grades** once instructors enter them
-- **Manage your profile** and change your password anytime
+**Students:** Register for courses (max 7), choose payment method, switch courses, view grades, manage profile.
 
-### For Instructors
-- **Create and manage courses** with course codes, titles, credit hours, and seat counts
-- **Edit or delete courses** you've created
-- **Enter student grades** in a simple form
-- **View the course catalog** and manage enrollment
+**Instructors:** Create and manage courses, enter student grades, view catalog.
 
-### For Finance Staff
-- **Review pending payments** from students who chose Visa
-- **Approve or reject payments** with a single click
-- **View payment history** and transaction details
-- **Track which students have paid** for their courses
+**Finance Staff:** Review and approve/reject pending payments, view payment history.
 
-### For Administrators
-- **View enrollment reports** showing course registrations and student counts
-- **Access system data** in JSON format for advanced analysis
-- **Monitor the entire system** and generate summaries
+**Administrators:** View enrollment reports, access system data, monitor the entire system.
 
-## How Payment Processing Works
+## Payment Processing
 
-**Cash Payment:**
-- Instant success — your registration is confirmed immediately
-- Best for testing the core registration flow
+**Cash:** Instant success — registration confirmed immediately.
 
-**Visa Payment:**
-- May succeed or go pending (simulating real-world scenarios)
-- Pending payments appear in the Finance queue
-- Finance staff can approve or reject them
-- Once approved, your registration is confirmed and the course seat is reserved
+**Visa:** May succeed or go pending. Finance staff approve or reject pending payments.
 
-## File Structure
+## How to Run
 
+```bash
+python3 -m http.server 8000
 ```
-SA_D-Project/
-├── index.html              # Home page
-├── login.html              # Sign in page
-├── dashboard.html          # User dashboard
-├── courses.html            # Course catalog & management
-├── register.html           # Course registration
-├── grades.html             # Grade entry & viewing
-├── admin.html              # Admin & Finance dashboards
-├── about.html              # Meet the team
-├── profile.html            # User profile & password change
-├── help.html               # Help & troubleshooting
-├── assets/
-│   ├── style.css           # All styling (responsive design)
-│   └── app.js              # Business logic & data management
-└── README.md               # This file
-```
+
+Open http://localhost:8000 in your browser and sign in with a test account.
 
 ## Data Storage
 
-All data is stored locally
+All data stored in browser localStorage. To reset:
+
+1. Open Developer Tools (F12)
+2. Go to Application → Local Storage
+3. Delete `ums_data_v3` and `ums_curr_v3`
+4. Reload page
+
+## Technology
+
+HTML5, CSS3, Vanilla JavaScript, LocalStorage API.
+
