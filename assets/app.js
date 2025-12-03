@@ -220,17 +220,19 @@ window.UMSApp = (function(){
   };
 })();
 
-// --- global navbar injection (runs on pages that include assets/app.js) ---
+// --- replace / update the global navbar injection block ---
+// global navbar injection (runs on pages that include assets/app.js)
 document.addEventListener('DOMContentLoaded', function(){
-  // avoid duplicate insertion
   if(document.querySelector('.global-nav-injected')) return;
-
   const user = window.UMSApp && window.UMSApp.currentUser ? window.UMSApp.currentUser() : null;
   const nav = document.createElement('div');
   nav.className = 'navbar global-nav-injected';
   nav.innerHTML = `
     <div class="nav-inner">
-      <div class="brand">UMS Prototype</div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="brand">UMS Prototype</div>
+        <button class="burger" aria-label="menu" title="menu" data-burger><span></span></button>
+      </div>
       <div class="nav-links">
         <a href="index.html">Home</a>
         <a href="login.html">Login</a>
@@ -249,6 +251,17 @@ document.addEventListener('DOMContentLoaded', function(){
     </div>
   `;
   document.body.insertBefore(nav, document.body.firstChild);
+
+  // burger toggle for mobile
+  const burger = nav.querySelector('[data-burger]');
+  burger && burger.addEventListener('click', ()=>{
+    document.body.classList.toggle('nav-open');
+  });
+
+  // close mobile nav when clicking a link
+  nav.querySelectorAll('.nav-links a').forEach(a=>{
+    a.addEventListener('click', ()=> { document.body.classList.remove('nav-open'); });
+  });
 
   const logoutBtn = nav.querySelector('[data-logout]');
   if(logoutBtn){
