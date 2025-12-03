@@ -3,32 +3,29 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Profile — UMS Prototype</title>
+    <title>Profile</title>
     <link rel="stylesheet" href="assets/style.css" />
   </head>
   <body>
     <div class="page">
-      <header class="card">
-        <h1>Profile</h1>
-        <nav class="nav">
-          <a href="dashboard.html">Dashboard</a> · <a href="index.html">Home</a>
-        </nav>
-        <p id="who" class="muted"></p>
-      </header>
-
       <main class="card">
-        <h2>Account</h2>
-        <div id="acctInfo" class="muted"></div>
+        <h1>My Profile</h1>
+        <p id="who" class="muted"></p>
 
-        <h3>Change password</h3>
-        <form id="pwForm">
+        <h2>Account Information</h2>
+        <div id="acctInfo" class="muted" style="margin: 12px 0"></div>
+
+        <h2>Change Password</h2>
+        <form id="pwForm" style="margin: 12px 0">
           <label
-            >Current password<input id="curPw" type="password" required
+            >Current Password<input id="curPw" type="password" required
           /></label>
           <label
-            >New password<input id="newPw" type="password" required
+            >New Password<input id="newPw" type="password" required
           /></label>
-          <div class="actions"><button>Change password</button></div>
+          <div class="actions">
+            <button type="submit">Update Password</button>
+          </div>
         </form>
         <p id="pwMsg" class="muted"></p>
       </main>
@@ -38,9 +35,7 @@
     <script>
       UMSApp.requireAuth();
       const user = UMSApp.currentUser();
-      document.getElementById(
-        "who"
-      ).textContent = `${user.username} (${user.role})`;
+      document.getElementById("who").textContent = `${user.username}`;
       document.getElementById(
         "acctInfo"
       ).innerHTML = `<div>Username: <strong>${user.username}</strong></div><div>Role: <strong>${user.role}</strong></div>`;
@@ -51,12 +46,13 @@
         const neu = document.getElementById("newPw").value;
         try {
           UMSApp.changePassword(user.username, cur, neu);
-          document.getElementById("pwMsg").textContent =
-            "Password changed successfully.";
+          document.getElementById("pwMsg").innerHTML =
+            '<span class="success">Password updated successfully.</span>';
           document.getElementById("pwForm").reset();
         } catch (err) {
-          document.getElementById("pwMsg").textContent =
-            "Error: " + err.message;
+          document.getElementById(
+            "pwMsg"
+          ).innerHTML = `<span class="error">Error: ${err.message}</span>`;
         }
       });
     </script>

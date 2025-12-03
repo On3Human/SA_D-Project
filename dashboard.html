@@ -3,30 +3,15 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Dashboard — UMS Prototype</title>
+    <title>Dashboard</title>
     <link rel="stylesheet" href="assets/style.css" />
   </head>
   <body>
     <div class="page">
-      <header class="card">
-        <h1>UMS Prototype — Dashboard</h1>
+      <main class="card">
+        <h1>Dashboard</h1>
         <p id="who" class="muted"></p>
-        <nav class="nav">
-          <a href="courses.html">Courses</a>
-          <a href="register.html">Register</a>
-          <a href="grades.html">Grades</a>
-          <a href="admin.html">Admin/Finance</a>
-          <a href="#" id="logout">Logout</a>
-        </nav>
-      </header>
-
-      <main class="card" id="mainArea">
-        <h2>Welcome</h2>
-        <p class="muted">
-          Quick links for the flows in the diagrams: manage courses, search &
-          register, payment stub and grade management.
-        </p>
-        <div id="roleArea"></div>
+        <div id="roleArea" style="margin-top: 12px"></div>
       </main>
     </div>
 
@@ -34,24 +19,20 @@
     <script>
       UMSApp.requireAuth();
       const u = UMSApp.currentUser();
-      document.getElementById("who").textContent = `${u.username} (${u.role})`;
-      document.getElementById("logout").addEventListener("click", (e) => {
-        e.preventDefault();
-        UMSApp.logout();
-      });
+      document.getElementById("who").textContent = `Welcome, ${u.username}`;
       const roleArea = document.getElementById("roleArea");
       if (u.role === "student")
         roleArea.innerHTML =
-          '<p>Go to <a href="register.html">Register</a> to enroll in courses.</p>';
+          '<p>Start by visiting <a href="register.html">Register for Courses</a> to enroll in your classes.</p>';
       else if (u.role === "instructor")
         roleArea.innerHTML =
-          '<p>Go to <a href="courses.html">Courses</a> to manage and <a href="grades.html">Grades</a> to enter grades.</p>';
+          '<p>Visit <a href="courses.html">Manage Courses</a> to create and edit courses, or go to <a href="grades.html">Grades</a> to enter student grades.</p>';
       else if (u.role === "admin")
         roleArea.innerHTML =
-          '<p>Use <a href="admin.html">Admin</a> for reports and system overview.</p>';
+          '<p>Use the <a href="admin.html">Admin Dashboard</a> to view system reports and enrollment summaries.</p>';
       else if (u.role === "finance")
         roleArea.innerHTML =
-          '<p>Use <a href="admin.html">Finance</a> to verify pending payments and manage payment queue.</p>';
+          '<p>Go to <a href="admin.html">Payment Queue</a> to review and approve pending student payments.</p>';
     </script>
   </body>
 </html>

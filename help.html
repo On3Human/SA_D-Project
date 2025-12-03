@@ -3,60 +3,73 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Help — UMS Prototype</title>
+    <title>Help</title>
     <link rel="stylesheet" href="assets/style.css" />
   </head>
   <body>
     <div class="page">
-      <header class="card">
-        <h1>Help & Quick Reference</h1>
-        <nav class="nav">
-          <a href="index.html">Home</a> · <a href="dashboard.html">Dashboard</a>
-        </nav>
-      </header>
-
       <main class="card">
-        <h2>Seeded accounts</h2>
+        <h1>Help & Support</h1>
+
+        <h2>Test Accounts</h2>
+        <p>Use these accounts to explore different roles and features:</p>
         <ul>
-          <li>student / studentpass</li>
-          <li>instructor / instructorpass</li>
-          <li>admin / adminpass</li>
-          <li><strong>finance / financepass</strong> (Finance Dept)</li>
+          <li><strong>student</strong> / studentpass</li>
+          <li><strong>instructor</strong> / instructorpass</li>
+          <li><strong>admin</strong> / adminpass</li>
+          <li><strong>finance</strong> / financepass</li>
         </ul>
 
-        <h2>Key behaviors</h2>
+        <h2>Key Features</h2>
         <ul>
           <li>
-            Student: register up to 7 courses; below 4 courses shows a warning.
+            <strong>Course Registration:</strong> Students can register for up
+            to 7 courses with automatic seat availability checks.
           </li>
           <li>
-            Registration includes payment simulation; Visa may fail randomly;
-            Cash always succeeds. If Visa fails, Finance can approve pending
-            payments.
+            <strong>Payment Processing:</strong> Choose between Visa and Cash.
+            Visa payments may be pending for finance verification.
           </li>
           <li>
-            Course codes are unique ignoring case; editing a code will update
-            the existing entry.
+            <strong>Course Management:</strong> Instructors can create, edit,
+            and delete courses with credit hours and seat counts.
           </li>
           <li>
-            Exchange flow attempts an atomic drop+add and prevents exchanging to
-            a course already taken.
+            <strong>Grade Tracking:</strong> Instructors enter grades, students
+            view their performance.
+          </li>
+          <li>
+            <strong>Payment Verification:</strong> Finance staff approve or
+            reject pending student payments.
+          </li>
+          <li>
+            <strong>Admin Reports:</strong> Administrators access enrollment
+            summaries and system data.
           </li>
         </ul>
 
         <h2>Troubleshooting</h2>
         <ol>
-          <li>If navigation redirects to login, sign back in.</li>
           <li>
-            If payment fails, choose Cash or wait for Admin/Finance to verify
-            pending payments.
+            <strong>Redirected to login:</strong> Your session may have expired.
+            Sign in again.
           </li>
           <li>
-            If a course disappears after delete, it also removes associated
-            registrations and payments.
+            <strong>Payment failed:</strong> Try again with Cash for guaranteed
+            success, or wait for Finance approval.
+          </li>
+          <li>
+            <strong>Course registration limited:</strong> You may have reached
+            the 7 course maximum or the course is full.
+          </li>
+          <li>
+            <strong>Reset demo data:</strong> Open DevTools, go to Application,
+            find Local Storage, and remove the ums_data_v3 key.
           </li>
         </ol>
       </main>
     </div>
+
+    <script src="assets/app.js"></script>
   </body>
 </html>

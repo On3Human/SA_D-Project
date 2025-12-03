@@ -3,34 +3,28 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Register — UMS Prototype</title>
+    <title>Register for Courses</title>
     <link rel="stylesheet" href="assets/style.css" />
   </head>
   <body>
     <div class="page">
-      <header class="card">
-        <h1>Course Registration</h1>
-        <nav class="nav">
-          <a href="dashboard.html">Dashboard</a> ·
-          <a href="courses.html">Courses</a>
-        </nav>
-        <p id="who" class="muted"></p>
-      </header>
-
       <main class="card">
-        <div class="form-inline">
+        <h1>Register for Courses</h1>
+        <p id="who" class="muted"></p>
+
+        <div class="form-inline" style="margin-top: 12px">
           <label style="flex: 1"
-            >Search<input id="q" placeholder="code or title"
+            >Search<input id="q" placeholder="Search by course name or code"
           /></label>
           <label style="width: 160px"
-            >Search by
+            >Filter by
             <select id="searchMode">
-              <option value="text">Name / Code</option>
-              <option value="credits">Credits</option>
+              <option value="text">Name or Code</option>
+              <option value="credits">Credit Hours</option>
             </select>
           </label>
           <label style="width: 160px" id="creditsFilterLabel" hidden
-            >Credits
+            >Credit Hours
             <input
               id="creditVal"
               type="number"
@@ -44,17 +38,22 @@
           </div>
         </div>
 
+        <h2>Search Results</h2>
         <div id="results" class="list muted"></div>
 
-        <hr />
-        <h3>Your Registrations</h3>
+        <hr style="margin: 16px 0" />
+        <h2>Your Current Registrations</h2>
         <div id="myRegs" class="list muted"></div>
 
-        <hr />
-        <h3>Exchange Course</h3>
+        <hr style="margin: 16px 0" />
+        <h2>Switch Courses</h2>
         <div class="form-inline">
-          <label>Drop (code)<input id="dropCode" /></label>
-          <label>Pick (code)<input id="pickCode" /></label>
+          <label
+            >Drop course (code)<input id="dropCode" placeholder="CSE101"
+          /></label>
+          <label
+            >Add course (code)<input id="pickCode" placeholder="MTH100"
+          /></label>
           <label
             >Payment method
             <select id="exchangeMethod">
@@ -62,7 +61,7 @@
               <option>Cash</option>
             </select>
           </label>
-          <div class="controls"><button id="exchangeBtn">Exchange</button></div>
+          <div class="controls"><button id="exchangeBtn">Switch</button></div>
         </div>
       </main>
     </div>
@@ -71,12 +70,10 @@
     <script>
       UMSApp.requireAuth();
       const user = UMSApp.currentUser();
-      document.getElementById(
-        "who"
-      ).textContent = `${user.username} (${user.role})`;
+      document.getElementById("who").textContent = `${user.username}`;
       if (user.role !== "student") {
         document.getElementById("results").textContent =
-          "Login as a student to register.";
+          "Login as a student to register for courses.";
       }
 
       function renderResults(list) {
@@ -84,34 +81,32 @@
           .map(
             (
               c
-            ) => `<div class="row"><div><strong>${c.code}</strong> — ${c.title} <div class="small">seats: ${c.seats} • ${c.credits} credits</div></div>
-        <div class="controls"><label>Pay via<select class="payMethod"><option>Visa</option><option>Cash</option></select><button data-code="${c.code}" class="reg">Register</button></div></div>`
+            ) => `<div class="row"><div><strong>${c.code}</strong> ${c.title} <div class="small">${c.credits} credits • ${c.seats} seats available</div></div>
+        <div class="controls"><label>Payment<select class="payMethod"><option>Visa</option><option>Cash</option></select></label><button data-code="${c.code}" class="reg">Register</button></div></div>`
           )
           .join("");
         document.getElementById("results").innerHTML =
-          html || "<em>No results</em>";
+          html || "<em>No courses found.</em>";
         document.querySelectorAll(".reg").forEach((b) =>
           b.addEventListener("click", () => {
             const code = b.getAttribute("data-code");
             const sel = b.parentElement.querySelector(".payMethod");
             const method = sel ? sel.value : "Visa";
             try {
-              // check limits
               const count = UMSApp.countStudentCourses(user.username);
               if (count >= 7)
-                return alert(
-                  "You already have 7 courses (maximum). Cannot add more."
-                );
-              UMSApp.registerCourse(user.username, code, method);
+                return alert("You have reached the maximum of 7 courses.");
+              const res = UMSApp.registerCourse(user.username, code, method);
               renderMyRegs();
               alert("Registration successful");
             } catch (err) {
-              if (err.message === "full") alert("Seats are full");
+              if (err.message === "full")
+                alert("This course is full. No seats available.");
               else if (err.message === "payment_failed") {
-                if (confirm("Payment failed. Retry?")) b.click();
+                if (confirm("Payment failed. Try again?")) b.click();
               } else if (err.message === "max_reached")
-                alert("Course limit reached (7).");
-              else alert("Registration failed: " + err.message);
+                alert("You have reached your course limit.");
+              else alert("Error: " + err.message);
             }
           })
         );
@@ -125,37 +120,34 @@
         const frag = regs
           .map((r) => {
             const pay = payments.find((p) => p.regId === r.regId);
-            const payLabel = pay
-              ? ` • payment: ${pay.method} (${pay.status})`
-              : "";
+            const payLabel = pay ? ` • ${pay.method} (${pay.status})` : "";
             const dropBtn = `<button data-code="${r.course}" class="dropBtn ghost">Drop</button>`;
-            return `<div class="row"><div><strong>${r.course}</strong> — ${r.status}${payLabel}</div><div>${dropBtn}</div></div>`;
+            return `<div class="row"><div><strong>${r.course}</strong> (${r.status})${payLabel}</div><div>${dropBtn}</div></div>`;
           })
           .join("");
         document.getElementById("myRegs").innerHTML =
-          frag || "<em>No registrations</em>";
+          frag || "<em>No registrations yet.</em>";
         document.querySelectorAll(".dropBtn").forEach((b) =>
           b.addEventListener("click", () => {
             const code = b.getAttribute("data-code");
-            if (confirm("Drop course?")) {
+            if (confirm("Drop this course?")) {
               try {
                 UMSApp.dropCourse(user.username, code);
                 renderMyRegs();
-                alert("Dropped");
+                alert("Course dropped");
               } catch (e) {
                 alert(e.message);
               }
             }
           })
         );
-        // warn about min courses
         const count = UMSApp.countStudentCourses(user.username);
         if (count < 4)
           document
             .getElementById("myRegs")
             .insertAdjacentHTML(
               "afterbegin",
-              `<div class="error small">Warning: you are registered for fewer than 4 courses (recommended minimum).</div>`
+              `<div class="error small">Recommendation: Register for at least 4 courses to maintain full-time status.</div>`
             );
       }
 
@@ -184,21 +176,19 @@
         const drop = document.getElementById("dropCode").value.trim();
         const pick = document.getElementById("pickCode").value.trim();
         const method = document.getElementById("exchangeMethod").value;
-        if (!drop || !pick)
-          return alert("Provide both drop and pick course codes.");
+        if (!drop || !pick) return alert("Enter both course codes.");
         try {
           UMSApp.exchangeCourse(user.username, drop, pick, method);
           renderMyRegs();
-          alert("Exchange successful");
+          alert("Course switch successful");
         } catch (err) {
-          if (err.message === "new_full") alert("Desired course is full");
+          if (err.message === "new_full") alert("The target course is full.");
           else if (err.message === "payment_failed")
-            alert("Payment failed during exchange");
-          else alert("Exchange failed: " + err.message);
+            alert("Payment failed during switch.");
+          else alert("Error: " + err.message);
         }
       });
 
-      // presearch by ?course=...
       const params = new URLSearchParams(location.search);
       if (params.has("course")) {
         const code = params.get("course");

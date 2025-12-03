@@ -220,17 +220,20 @@ window.UMSApp = (function(){
   };
 })();
 
-// --- replace / update the global navbar injection block ---
-// global navbar injection (runs on pages that include assets/app.js)
+// --- FIXED navbar injection (no undefined display) ---
 document.addEventListener('DOMContentLoaded', function(){
   if(document.querySelector('.global-nav-injected')) return;
-  const user = window.UMSApp && window.UMSApp.currentUser ? window.UMSApp.currentUser() : null;
+  
+  const user = (window.UMSApp && window.UMSApp.currentUser) ? window.UMSApp.currentUser() : null;
+  const userDisplay = user ? `<span class="small" style="margin-right:10px;color:#fff">${user.username} (${user.role})</span>` : '';
+  const authAction = user ? `<button data-logout style="background:rgba(255,255,255,0.12);padding:6px 10px;border-radius:8px;color:#fff;border:0;cursor:pointer;font-weight:600;font-size:0.9rem">Logout</button>` : `<a href="login.html" style="color:#fff;text-decoration:none;padding:6px 10px">Sign In</a>`;
+  
   const nav = document.createElement('div');
   nav.className = 'navbar global-nav-injected';
   nav.innerHTML = `
     <div class="nav-inner">
-      <div style="display:flex;align-items:center;gap:12px">
-        <div class="brand">UMS Prototype</div>
+      <div style="display:flex;align-items:center;gap:12px;flex:1">
+        <div class="brand">UMS</div>
         <button class="burger" aria-label="menu" title="menu" data-burger><span></span></button>
       </div>
       <div class="nav-links">
@@ -241,24 +244,23 @@ document.addEventListener('DOMContentLoaded', function(){
         <a href="register.html">Register</a>
         <a href="grades.html">Grades</a>
         <a href="admin.html">Admin</a>
-        <a href="class-diagram.html">Class Model</a>
+        <a href="about.html">About</a>
         <a href="profile.html">Profile</a>
         <a href="help.html">Help</a>
       </div>
       <div class="nav-actions">
-        ${ user ? `<span class="small" style="margin-right:10px;color:#fff">${user.username} (${user.role})</span><button data-logout>Logout</button>` : `<a href="login.html">Sign In</a>` }
+        ${userDisplay}
+        ${authAction}
       </div>
     </div>
   `;
   document.body.insertBefore(nav, document.body.firstChild);
 
-  // burger toggle for mobile
   const burger = nav.querySelector('[data-burger]');
-  burger && burger.addEventListener('click', ()=>{
-    document.body.classList.toggle('nav-open');
-  });
+  if(burger){
+    burger.addEventListener('click', ()=>{ document.body.classList.toggle('nav-open'); });
+  }
 
-  // close mobile nav when clicking a link
   nav.querySelectorAll('.nav-links a').forEach(a=>{
     a.addEventListener('click', ()=> { document.body.classList.remove('nav-open'); });
   });
@@ -267,7 +269,7 @@ document.addEventListener('DOMContentLoaded', function(){
   if(logoutBtn){
     logoutBtn.addEventListener('click', function(e){
       e.preventDefault();
-      window.UMSApp.logout();
+      if(window.UMSApp) window.UMSApp.logout();
     });
   }
 });
