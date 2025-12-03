@@ -221,12 +221,125 @@ pre {
   text-align: center;
   padding: 12px;
 }
+
+/* Responsive / mobile navbar and hero tweaks */
+.burger {
+  display: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.burger span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: #fff;
+  border-radius: 2px;
+  position: relative;
+}
+.burger span::after,
+.burger span::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 18px;
+  height: 2px;
+  background: #fff;
+  border-radius: 2px;
+}
+.burger span::before {
+  top: -6px;
+}
+.burger span::after {
+  top: 6px;
+}
+
+/* body class to show mobile nav */
+.nav-open .nav-links {
+  display: flex !important;
+  flex-direction: column;
+  position: fixed;
+  top: var(--nav-height);
+  left: 0;
+  right: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(11, 110, 246, 0.98),
+    rgba(11, 116, 255, 0.95)
+  );
+  padding: 12px;
+  gap: 8px;
+  z-index: 1001;
+}
+.nav-open .nav-links a {
+  color: #fff;
+  padding: 12px;
+  border-radius: 8px;
+}
+.nav-open .nav-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* homepage hero and cards */
+.hero {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.hero .hero-left {
+  flex: 1;
+  min-width: 260px;
+}
+.hero .hero-right {
+  width: 420px;
+  max-width: 45%;
+}
+.features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 16px;
+}
+.feature {
+  padding: 12px;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid #eef4ff;
+  box-shadow: 0 6px 18px rgba(11, 110, 246, 0.04);
+}
+.feature h4 {
+  margin: 0 0 6px 0;
+  color: var(--accent);
+}
+.feature p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* responsive adjustments */
 @media (max-width: 880px) {
   .nav-links {
     display: none;
   }
-  .nav-actions {
-    margin-left: 0;
+  .burger {
+    display: flex;
+  }
+  .hero .hero-right {
+    width: 100%;
+    max-width: none;
+    margin-top: 12px;
+  }
+  .features {
+    grid-template-columns: repeat(1, 1fr);
   }
   body {
     padding-top: 72px;
