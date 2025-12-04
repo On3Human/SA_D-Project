@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Flow Diagram</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Understanding Data Flow Diagrams (DFD)</h1>
+    </header>
+    <main>
+        <section class="introduction">
+            <h2>What is a Data Flow Diagram?</h2>
+            <p>A Data Flow Diagram (DFD) is a graphical representation of the "flow" of data through an information system. DFDs can be used to analyze an existing system or to model a new one. They illustrate how data is processed and transferred within a system, showing the inputs, outputs, storage, and external entities involved.</p>
+            <p>DFDs are a core tool in structured systems analysis and design (SSADM). They help in visualizing the major functions of a system and the data that flows between them.</p>
+        </section>
+
+        <section class="components">
+            <h2>Key Components of a DFD</h2>
+            <p>DFDs typically use four main symbols:</p>
+            <ul>
+                <li><strong>Process:</strong> Represents a transformation of data. This could be anything from calculating a value to sorting a list.</li>
+                <li><strong>Data Store:</strong> Represents a place where data is held (e.g., a database, a file cabinet).</li>
+                <li><strong>External Entity (or Terminator):</strong> Represents a source or destination of data outside the system (e.g., a customer, a bank).</li>
+                <li><strong>Data Flow:</strong> Represents the movement of data between processes, data stores, and external entities.</li>
+            </ul>
+        </section>
+
+        <section class="dfd-example-1">
+            <h2>DFD level 0</h2>
+            <p>
+                This diagram illustrates the level 0 DFD of a University Management System 
+                <br>
+                It treats the entire University Management System as a 
+                (Process 0.0) and defines how it interacts with external entities.
+                <br>
+                Central Process 0.0 : University Management System: The core system that handles all logic.
+                <hr>
+                External Entities:
+                <br>
+                Student : Users who consume education services.
+                <br>
+                Admin : Staff members who manage the system and curriculum.
+                <br>
+                Data Flows : Student System :Input: The student provides ID, personal info, course selections, and payment info.
+                <br>
+                Output : The system returns schedules, transcripts, receipts, and alerts.
+                <br>
+                Admin System :Input: The admin provides curriculum data, faculty info, and policy updates.
+                <br>
+                Output : The system returns enrollment reports, academic stats, and system logs.
+            </p>
+            <img src="image.png" alt="Data Flow Diagram Example 1: Order Processing">
+            <p class="image-caption">Figure 1: A Level 0 DFD for a University Management System.</p>
+        </section>
+
+        <section class="dfd-example-2">
+            <h2>DFD level 1: University Management System Explained</h2>
+            <p>
+                Key Processes:
+                <hr>
+                1.0 University Management System (Dispatcher/Controller): This acts as the entry point. It receives the initial Student Registration Course request, sends an acknowledgment (Acceptance Message) to the student, and notifies the Admin (Registration Message). It then splits the data, sending course-related info to Process 2.0 and financial info to Process 3.0.    
+                <br>
+                2.0 Update Course: Receives "Course Changing" data. It processes this information and formats it to be stored in the database.
+                <br>
+                3.0 Update Payment Data: Receives "Payment Data." It processes the financial transaction details and formats them for storage.
+                <br>
+                4.0 Produce Management Reports: This process queries the database to generate summaries. It pulls daily activity logs and compiles them into Management Reports for the University Management entity.
+                <hr>
+                Data Stores (Databases):
+                <br>
+                D2 Course Data: Stores the "Formatted Course Change" data.
+                <br>
+                D1 Payments Data: Stores the "Formatted Payments" data.
+                <hr>
+                Flow Logic:The flow represents a standard Input Process Storage Reporting cycle:
+                <br>
+                Data enters via Process 1.0.
+                <br>
+                It is split and processed by 2.0 (Academic) and 3.0 (Financial).
+                <br>
+                It rests in Data Stores D1 and D2.
+                <br>
+                Process 4.0 retrieves this stored data to create insights for management.
+            </p>
+            <img src="image2.png" alt="Data Flow Diagram Example 2: Online Banking">
+            <p class="image-caption">Figure 2: A DFD showing key flows in a University Management System.</p>
+        </section>
+
+        <section class="levels-of-dfds">
+            <h2>Levels of DFDs</h2>
+            <p>DFDs can be drawn at different levels of detail:</p>
+            <ul>
+                <li><strong>Context Diagram (Level 0):</strong> The highest-level DFD, showing the entire system as a single process and its interactions with external entities.</li>
+                <li><strong>Level 0 DFD:</strong> Decomposes the single process of the context diagram into its major processes and data stores.</li>
+                <li><strong>Level 1 DFD:</strong> Further decomposes processes from Level 0, providing more granular detail.</li>
+            </ul>
+        </section>
+
+        <section class="conclusion">
+            <h2>Why Use DFDs?</h2>
+            <p>DFDs offer several benefits:</p>
+            <ul>
+                <li><strong>Clarity:</strong> Provide a clear, visual representation of system data flow.</li>
+                <li><strong>Communication:</strong> Serve as an effective communication tool between system analysts, developers, and users.</li>
+                <li><strong>Analysis:</strong> Help identify inefficiencies, redundancies, and potential security weaknesses in a system.</li>
+                <li><strong>Design:</strong> Aid in the design of new systems by defining system boundaries, processes, and data storage needs.</li>
+            </ul>
+            <p>By understanding and utilizing DFDs, teams can build more robust and efficient information systems.</p>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 Data Flow Diagram Explanation. All rights reserved.</p>
+    </footer>
+</body>
+</html>
