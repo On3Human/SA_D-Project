@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="assets/style.css" />
+  </head>
+  <body>
+    <div class="page">
+      <main class="card">
+        <h1>Dashboard</h1>
+        <p id="who" class="muted"></p>
+        <div id="roleArea" style="margin-top: 12px"></div>
+      </main>
+    </div>
+
+    <script src="assets/app.js"></script>
+    <script>
+      UMSApp.requireAuth();
+      const u = UMSApp.currentUser();
+      document.getElementById("who").textContent = `Welcome, ${u.username}`;
+      const roleArea = document.getElementById("roleArea");
+      if (u.role === "student")
+        roleArea.innerHTML =
+          '<p>Start by visiting <a href="register.html">Register for Courses</a> to enroll in your classes.</p>';
+      else if (u.role === "instructor")
+        roleArea.innerHTML =
+          '<p>Visit <a href="courses.html">Manage Courses</a> to create and edit courses, or go to <a href="grades.html">Grades</a> to enter student grades.</p>';
+      else if (u.role === "admin")
+        roleArea.innerHTML =
+          '<p>Use the <a href="admin.html">Admin Dashboard</a> to view system reports and enrollment summaries.</p>';
+      else if (u.role === "finance")
+        roleArea.innerHTML =
+          '<p>Go to <a href="admin.html">Payment Queue</a> to review and approve pending student payments.</p>';
+    </script>
+  </body>
+</html>

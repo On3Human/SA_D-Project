@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Activity Diagram — System Analysis and Design</title>
+    <style>
+      /* consistent styling with dfd.html / usecase.html */
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 20px;
+        background-color: #f4f4f4;
+        color: #333;
+      }
+      .container {
+        max-width: 900px;
+        margin: 20px auto;
+      }
+      h1,
+      h2,
+      h3 {
+        color: #0056b3;
+        margin: 0 0 12px 0;
+      }
+      .card {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        margin-bottom: 18px;
+      }
+
+      /* full diagram image (not cropped banner) */
+      .diagram-figure {
+        margin: 0 0 16px 0;
+        text-align: center;
+      }
+      .diagram-figure img {
+        display: block;
+        width: 100%;
+        height: auto;
+        border-radius: 6px;
+        border: 1px solid #e6e6e6;
+        box-shadow: 0 4px 14px rgba(2, 6, 23, 0.06);
+      }
+      .muted {
+        color: #666;
+        font-size: 0.95rem;
+      }
+      ul {
+        margin-left: 20px;
+      }
+      footer {
+        font-size: 0.9rem;
+        color: #666;
+        margin-top: 12px;
+      }
+      @media (min-width: 900px) {
+        .cols {
+          display: flex;
+          gap: 18px;
+        }
+        .cols > div {
+          flex: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header class="card" aria-labelledby="page-title">
+        <h1 id="page-title">Activity Diagram</h1>
+        <p class="muted">
+          Visual workflow and decision paths — ActivityDiagram.jpeg
+        </p>
+      </header>
+
+      <section class="card" aria-label="diagram">
+        <figure
+          class="diagram-figure"
+          role="img"
+          aria-label="Full activity diagram"
+        >
+          <img
+            src="ActivityDiagram.jpeg"
+            alt="Full activity diagram showing workflow and decision points"
+          />
+        </figure>
+
+        <h2>Full description</h2>
+        <p>
+          This flowchart illustrates the complete path a student follows when using the course management system, beginning from entering the system and checking whether they are already registered. If the student is not registered, they are directed to fill out a registration form which is validated by the system, and they cannot continue until the form is completed correctly. If the student is already registered, they move directly to logging in. After successful login, the student reaches the course management area, where the system checks whether a course has already been created. If no course exists, the student is required to create one before continuing; otherwise, they may update existing course information. The student then proceeds to search for courses either by name or by credit hours. If no course matches the search criteria, the system displays an error and allows the student to try again. If a course is found, the student selects it and completes the process by exchanging their current course with the chosen one, which marks the end of the workflow.
+        </p>
+
+        <div class="cols" aria-label="details">
+          <div>
+            <h3>Detailed breakdown</h3>
+            <ul>
+              <li>
+                <strong>Start & End:</strong> Trigger events and termination
+                states (normal / error).
+              </li>
+              <li>
+                <strong>Decision nodes:</strong> Conditional branching with
+                guard labels (e.g., validationPass / validationFail).
+              </li>
+              <li>
+                <strong>Fork / Join:</strong> Parallel tasks (e.g.,
+                notifications + analytics) and synchronization points.
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3>How to read & tips</h3>
+            <ol>
+              <li>Follow arrows from the filled start circle downward.</li>
+              <li>At diamonds, follow guard labels to determine the path.</li>
+              <li>
+                Convert decision branches into focused test cases (both positive
+                and negative).
+              </li>
+              <li>
+                Annotate actions with expected duration, retries and failure
+                handling for implementation clarity.
+              </li>
+            </ol>
+          </div>
+        </div>
+
+        <h3>Practical advice</h3>
+        <p>
+          Label important nodes and actions with IDs or brief notes to make
+          cross-referencing with requirements and test cases easier. For long
+          diagrams, include a small legend or numbered references.
+        </p>
+
+        <footer>
+          Download image:
+          <a href="ActivityDiagram.jpeg" download>ActivityDiagram.jpeg</a>
+        </footer>
+      </section>
+    </div>
+  </body>
+</html>

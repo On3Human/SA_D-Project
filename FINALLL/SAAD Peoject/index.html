@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>UMS Prototype — Home</title>
+    <link rel="stylesheet" href="assets/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;7700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div class="page">
+      <main class="card">
+        <div class="hero">
+          <div class="hero-left">
+            <h1>University Management System</h1>
+            <p class="muted">
+              A modern platform for students to register for courses, manage
+              payments, track grades, and for instructors to manage courses and
+              assign grades. Finance teams verify payments, and administrators
+              oversee the entire system.
+            </p>
+            <div
+              style="
+                margin-top: 12px;
+                display: flex;
+                gap: 10px;
+                flex-wrap: wrap;
+              "
+            >
+              <a href="login.html"><button>Get Started</button></a>
+              <a href="courses.html"
+                ><button class="ghost">Browse Courses</button></a
+              >
+              <a href="help.html"><button class="ghost">Learn More</button></a>
+            </div>
+            <div class="features" style="margin-top: 18px">
+              <div class="feature">
+                <h4>Secure Access</h4>
+                <p>
+                  Role-based login for students, instructors, administrators,
+                  and finance staff.
+                </p>
+              </div>
+              <div class="feature">
+                <h4>Easy Registration</h4>
+                <p>
+                  Register for courses with automatic seat checks and flexible
+                  payment options.
+                </p>
+              </div>
+              <div class="feature">
+                <h4>Payment Tracking</h4>
+                <p>
+                  Process payments securely and track pending transactions in
+                  real time.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-right">
+            <div
+              style="
+                padding: 16px;
+                border-radius: 10px;
+                background: linear-gradient(180deg, #fff, #f8fbff);
+                box-shadow: 0 6px 18px rgba(11, 110, 246, 0.04);
+              "
+            >
+              <h3 style="margin: 0 0 8px 0">Quick Start Accounts</h3>
+              <ul class="small muted" style="margin: 0; padding-left: 18px">
+                <li><strong>student</strong> / studentpass</li>
+                <li><strong>instructor</strong> / instructorpass</li>
+                <li><strong>admin</strong> / adminpass</li>
+                <li><strong>finance</strong> / financepass</li>
+              </ul>
+              <div style="margin-top: 12px" class="small muted">
+                <strong>Tip:</strong> Use <strong>Cash</strong> for immediate
+                success or <strong>Visa</strong> to test payment verification
+                with Finance.
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <footer class="card footer">
+        University Management System Demo. Data is stored locally in your
+        browser.
+      </footer>
+    </div>
+
+    <script src="assets/app.js"></script>
+  </body>
+</html>

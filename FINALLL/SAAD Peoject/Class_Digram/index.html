@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Diagram</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h1 {
+            color: #0056b3;
+        }
+        img {
+            max-width: 50%; /* Resized image */
+            height: auto;
+            border: 1px solid #ddd;
+            padding: 5px;
+            background-color: #fff;
+            display: block;
+            margin-bottom: 20px;
+        }
+        .description {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-left: 5px solid #0056b3;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>University Management System Class Diagram</h1>
+    <img src="Class Diagram.png" alt="University Management System Class Diagram">
+    <div class="description">
+        <h2>Description of the Class Diagram</h2>
+        <p>This class diagram illustrates the structure of a University Management System. It defines several key entities and their relationships:</p>
+        <ul>
+            <li><strong>User:</strong> The base class with common attributes like ID, name, email, password, phone, and address. It includes methods for login, logout, and profile updates.</li>
+            <li><strong>Student:</strong> Inherits from User and includes specific attributes like student level and GPA. It has methods to register for courses, view grades, and download material.</li>
+            <li><strong>Professor:</strong> Also inherits from User, with additional attributes for salary and degree. Professors can upload grades, upload material, and manage courses.</li>
+            <li><strong>Admin:</strong> Inherits from User and has a 'role' attribute. Admins have system-level management capabilities, including adding students, adding professors, and managing the overall system.</li>
+            <li><strong>Department:</strong> Represents a university department with a department ID and name. It can retrieve a list of courses offered by the department.</li>
+            <li><strong>Course:</strong> Defines course details such as course code, name, and credit hours. It includes methods to get course details and set the course schedule.</li>
+        </ul>
+        <p>Relationships depicted in the diagram:</p>
+        <ul>
+            <li>A <strong>Department</strong> <i>contains</i> multiple <strong>Students</strong> and <i>employs</i> multiple <strong>Professors</strong>.</li>
+            <li>A <strong>Department</strong> <i>offers</i> multiple <strong>Courses</strong>.</li>
+            <li>A <strong>Student</strong> <i>registers</i> for multiple <strong>Courses</strong>.</li>
+            <li>A <strong>Professor</strong> <i>teaches</i> multiple <strong>Courses</strong>.</li>
+            <li><strong>Student</strong>, <strong>Professor</strong>, and <strong>Admin</strong> all <i>inherit</i> from the <strong>User</strong> class, indicating common functionalities and attributes.</li>
+        </ul>
+    </div>
+</body>
+</html>

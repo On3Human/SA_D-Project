@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Admin</title>
+    <link rel="stylesheet" href="assets/style.css" />
+  </head>
+  <body>
+    <div class="page">
+      <main class="card">
+        <h1>Admin Dashboard</h1>
+        <p id="who" class="muted"></p>
+
+        <div id="adminPanel" style="margin-top: 12px">
+          <div id="adminArea" style="display: none">
+            <h2>System Reports</h2>
+            <button id="summaryBtn">View Enrollment Summary</button>
+            <pre id="summary" class="muted"></pre>
+            <hr style="margin: 12px 0" />
+            <h2>Full System Data</h2>
+            <pre id="raw" class="muted"></pre>
+          </div>
+
+          <div id="financeArea" style="display: none">
+            <h2>Pending Payments</h2>
+            <div id="pendingList" class="list muted"></div>
+            <h2>Payment History</h2>
+            <div id="allPayments" class="list muted"></div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="assets/app.js"></script>
+    <script>
+      UMSApp.requireAuth();
+      const user = UMSApp.currentUser();
+      if (!user) window.location = "login.html";
+      document.getElementById("who").textContent = `${user.role}`;
+
+      const adminArea = document.getElementById("adminArea");
+      const financeArea = document.getElementById("financeArea");
+
+      if (user.role === "admin") {
+        adminArea.style.display = "block";
+        document.getElementById("summaryBtn").addEventListener("click", () => {
+          document.getElementById("summary").textContent =
+            UMSApp.enrollmentSummary();
+          document.getElementById("raw").textContent = JSON.stringify(
+            UMSApp.data(),
+            null,
+            2
+          );
+        });
+      } else if (user.role === "finance") {
+        financeArea.style.display = "block";
+        renderPending();
+        renderAllPayments();
+      } else {
+        alert("Admin or Finance access required");
+        window.location = "dashboard.html";
+      }
+
+      function renderPending() {
+        const list = UMSApp.getPendingPayments();
+        const el = document.getElementById("pendingList");
+        if (!list.length) {
+          el.innerHTML = "<em>No pending payments</em>";
+          return;
+        }
+        el.innerHTML = list
+          .map(
+            (
+              p
+            ) => `<div class="row"><div><strong>${p.course}</strong> from ${p.student} via ${p.method}</div>
+        <div class="controls"><button data-id="${p.paymentId}" class="approve ghost">Approve</button><button data-id="${p.paymentId}" class="reject ghost warn">Reject</button></div></div>`
+          )
+          .join("");
+        document.querySelectorAll(".approve").forEach((b) =>
+          b.addEventListener("click", () => {
+            const id = Number(b.getAttribute("data-id"));
+            try {
+              UMSApp.verifyPayment(id, "approve");
+              alert("Payment approved successfully");
+              renderPending();
+              renderAllPayments();
+            } catch (e) {
+              alert("Error: " + e.message);
+              renderPending();
+              renderAllPayments();
+            }
+          })
+        );
+        document.querySelectorAll(".reject").forEach((b) =>
+          b.addEventListener("click", () => {
+            const id = Number(b.getAttribute("data-id"));
+            try {
+              UMSApp.verifyPayment(id, "reject");
+              alert("Payment rejected");
+              renderPending();
+              renderAllPayments();
+            } catch (e) {
+              alert("Error: " + e.message);
+              renderPending();
+              renderAllPayments();
+            }
+          })
+        );
+      }
+
+      function renderAllPayments() {
+        const all = UMSApp.getAllPayments();
+        const el = document.getElementById("allPayments");
+        if (!all.length) {
+          el.innerHTML = "<em>No payment records</em>";
+          return;
+        }
+        el.innerHTML =
+          '<table class="table"><tr><th>Payment ID</th><th>Student</th><th>Course</th><th>Method</th><th>Status</th></tr>' +
+          all
+            .map(
+              (p) =>
+                `<tr><td>${p.paymentId}</td><td>${p.student}</td><td>${p.course}</td><td>${p.method}</td><td><span class="badge">${p.status}</span></td></tr>`
+            )
+            .join("") +
+          "</table>";
+      }
+    </script>
+  </body>
+</html>

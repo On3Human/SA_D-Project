@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sequence Diagram — System Analysis and Design</title>
+    <style>
+      /* styling aligned with dfd.html / usecase.html */
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 20px;
+        background-color: #f4f4f4;
+        color: #333;
+      }
+      .container {
+        max-width: 900px;
+        margin: 20px auto;
+      }
+      h1,
+      h2,
+      h3 {
+        color: #0056b3;
+        margin: 0 0 12px 0;
+      }
+      .card {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        margin-bottom: 18px;
+      }
+
+      /* full diagram image (not cropped banner) */
+      .diagram-figure {
+        margin: 0 0 16px 0;
+        text-align: center;
+      }
+      .diagram-figure img {
+        display: block;
+        width: 100%;
+        height: auto;
+        border-radius: 6px;
+        border: 1px solid #e6e6e6;
+        box-shadow: 0 4px 14px rgba(2, 6, 23, 0.06);
+      }
+      .muted {
+        color: #666;
+        font-size: 0.95rem;
+      }
+      ul {
+        margin-left: 20px;
+      }
+      footer {
+        font-size: 0.9rem;
+        color: #666;
+        margin-top: 12px;
+      }
+      @media (min-width: 900px) {
+        .cols {
+          display: flex;
+          gap: 18px;
+        }
+        .cols > div {
+          flex: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header class="card" aria-labelledby="page-title">
+        <h1 id="page-title">Sequence Diagram</h1>
+        <p class="muted">
+          Chronological interactions between actors and system components —
+          SequenceDiagram.jpeg
+        </p>
+      </header>
+
+      <section class="card" aria-label="diagram">
+        <figure
+          class="diagram-figure"
+          role="img"
+          aria-label="Full sequence diagram"
+        >
+          <img
+            src="SequenceDiagram.jpeg"
+            alt="Full sequence diagram showing lifelines, messages and activation bars"
+          />
+        </figure>
+
+        <h2>Full description</h2>
+        <p>
+        This sequence diagram describes how the student, system, registrar, and finance department interact over time during the course registration process. The flow begins when the student logs in and the system displays the available courses. The student then selects a course and submits a registration request, which the system forwards to the registrar to check seat availability. If the course is full, the system informs the student and the process repeats so another course can be selected. If seats are available, the system contacts the finance department to verify the student’s payment status. When payment is incomplete, the system asks the student to retry and the loop continues. When payment is confirmed, the registration is completed successfully, and the process ends. This diagram emphasizes how registration is only finalized when both seat availability and financial clearance are confirmed.
+        </p>
+
+        <div class="cols" aria-label="details">
+          <div>
+            <h3>Key elements</h3>
+            <ul>
+              <li>
+                <strong>Actors & lifelines:</strong> User, Client/UI, API
+                Gateway, Service Layer, Database.
+              </li>
+              <li>
+                <strong>Messages:</strong> Synchronous calls (solid arrows),
+                returns (dashed), and async events (dotted).
+              </li>
+              <li>
+                <strong>Activation bars:</strong> Show when a participant is
+                processing.
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3>How to use</h3>
+            <ol>
+              <li>
+                Read top → down (time axis); participants are laid out left →
+                right.
+              </li>
+              <li>
+                Label messages with actual endpoints and expected latencies for
+                performance checks.
+              </li>
+              <li>
+                Use the diagram to locate bottlenecks, race conditions, and
+                where to add tracing/logging.
+              </li>
+            </ol>
+          </div>
+        </div>
+
+        <h3>Practical notes</h3>
+        <p>
+          When preparing this diagram for developers or reviewers, annotate key
+          messages with endpoint names (e.g., POST /login), token exchange
+          steps, and retry/error handling flows.
+        </p>
+
+        <footer>
+          Download image:
+          <a href="SequenceDiagram.jpeg" download>SequenceDiagram.jpeg</a>
+        </footer>
+      </section>
+    </div>
+  </body>
+</html>
